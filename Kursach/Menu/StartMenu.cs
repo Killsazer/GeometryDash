@@ -1,8 +1,10 @@
 namespace GeometryDashMenu;
 
+using GeometryDashMap;
+
 class StartMenu
 {
-    public void Main()
+    public bool MenuGenereator()
     {
         Console.Clear();
 
@@ -34,7 +36,7 @@ class StartMenu
             if (i == 0) y++; // відступ після першого рядка
         }
 
-        PressedKey();
+        return PressedKey();
     }
 
     private void PrintText(in int x, in int y, in string text)
@@ -52,7 +54,7 @@ class StartMenu
         Console.ResetColor();
     }
 
-    private void PressedKey()
+    private bool PressedKey()
     {
         while (true)
         {
@@ -60,11 +62,11 @@ class StartMenu
             switch (key.Key)
             {
                 case ConsoleKey.Escape:
-                    return;
+                    return false;
 
                 case ConsoleKey.Enter:
                     StartGame();
-                    return;
+                    return true;
 
                 default:
                     Console.Clear();
@@ -97,6 +99,8 @@ class StartMenu
             }
             Thread.Sleep(500);
         }
-        // Here you would typically start the game logic.
+
+        Console.Clear();
+        Thread.Sleep(500);
     }
 }
