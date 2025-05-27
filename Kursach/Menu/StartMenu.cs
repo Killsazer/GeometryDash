@@ -1,7 +1,5 @@
 namespace GeometryDashMenu;
 
-using GeometryDashMap;
-
 class StartMenu
 {
     public bool MenuGenereator()
