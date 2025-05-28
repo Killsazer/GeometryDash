@@ -1,4 +1,4 @@
-namespace GeometryDashModelsTileType;
+namespace Kursach.Models;
 
 public enum TileType
 {

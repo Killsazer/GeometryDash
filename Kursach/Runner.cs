@@ -1,7 +1,7 @@
 ﻿namespace GeometryDash;
 
-using GeometryDashMenu;
-using GeometryDashLogicStarter;
+using Kursach.Menu;
+using Kursach.GameCore;
 
 class Runner
 {
@@ -9,12 +9,12 @@ class Runner
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         var menu = new StartMenu();
-        bool continueCondition = menu.MenuGenereator();
+        bool continueCondition = menu.MenuGeneretor();
 
         if (continueCondition == true)
         {
-            var starter = new Starter();
-            starter.StartGame();
+            var game = new Game();
+            game.StartGame();
         }
     }
 }

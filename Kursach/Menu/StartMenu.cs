@@ -1,8 +1,14 @@
-namespace GeometryDashMenu;
+namespace Kursach.Menu;
 
 class StartMenu
 {
-    public bool MenuGenereator()
+    private readonly ConsolePrinter consolePrinter = new ConsolePrinter();
+    private readonly MenuNavigator menuNavigator;
+    public StartMenu()
+    {
+        menuNavigator = new MenuNavigator(StartGame);
+    }
+    public bool MenuGeneretor()
     {
         Console.Clear();
 
@@ -21,70 +27,29 @@ class StartMenu
             int x = (Console.WindowWidth - line.Length) / 2;
 
             if (i == 0)
-                PrintText(x, y, line);
+                consolePrinter.PrintText(x, y, line);
             else if (i == 2)
             {
                 x = (Console.WindowWidth - lines[1].Length) / 2; //вирівнювання в одному лінію з попереднім рядком
-                PrintText(x, y, line);
+                consolePrinter.PrintText(x, y, line);
             }
             else
-                PrintText(x, y, line);
+                consolePrinter.PrintText(x, y, line);
 
             y++;
             if (i == 0) y++; // відступ після першого рядка
         }
 
-        return PressedKey();
+        return menuNavigator.PressedKey();
     }
 
-    private void PrintText(in int x, in int y, in string text)
-    {
-        Console.SetCursorPosition(x, y);
-        foreach (char letter in text)
-        {
-            if (letter == 'G' && text.Contains("Geometry Dash")) // кольоровий напис "Geometry Dash!"
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            }
-            Console.Write(letter);
-            Thread.Sleep(50);
-        }
-        Console.ResetColor();
-    }
-
-    private bool PressedKey()
-    {
-        while (true)
-        {
-            ConsoleKeyInfo key = Console.ReadKey(true);
-            switch (key.Key)
-            {
-                case ConsoleKey.Escape:
-                    return false;
-
-                case ConsoleKey.Enter:
-                    StartGame();
-                    return true;
-
-                default:
-                    Console.Clear();
-                    var text = "Invalid key pressed. Please press ENTER to start or ESC to exit.";
-                    int x = (Console.WindowWidth - text.Length) / 2;
-                    int y = Console.CursorTop;
-                    Console.SetCursorPosition(x, y);
-                    Console.WriteLine(text);
-                    break;
-            }
-        }
-    }
-
-    private void StartGame()
+    public void StartGame()
     {
         Console.Clear();
         var text = "Starting the game";
         int x = (Console.WindowWidth - text.Length - 3) / 2;
         int y = Console.CursorTop;
-        PrintText(x, y, text);
+        consolePrinter.PrintText(x, y, text);
         for (int i = 0; i < 3; i++)
         {
             Console.Clear();
