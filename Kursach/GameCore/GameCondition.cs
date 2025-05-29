@@ -10,7 +10,7 @@ class GameCondition
         {
             for (int x = 1; x < map.GetLength(1) - 1; x++)
             {
-                if (map[y, x].Type != TileType.Empty)
+                if (map[y, x].Type != TileType.Empty && map[y, x].Type != TileType.Player)
                 {
                     return true;
                 }
