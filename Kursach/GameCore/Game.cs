@@ -5,7 +5,7 @@ namespace Kursach.GameCore;
 
 class Game
 {
-    private readonly MapRenderer mapEngine = new MapRenderer();
+    private readonly MapRenderer mapRenderer = new MapRenderer();
     private readonly MapLoader mapLoader = new MapLoader();
     private readonly Scroller scroller = new Scroller();
     private readonly GameCondition gameStateChecker = new GameCondition();
@@ -18,26 +18,25 @@ class Game
         Tile[,] map = mapLoader.LoadFromFile();
         while (gameStateChecker.HasNonEmptyTiles(map))
         {
-            // var (x, y) = playerController.FindPlayer(map);
-            mapEngine.PrintMap(map);
-            // if (map[y, x + 1].Type != TileType.Empty)
-            //     throw new Exception("You're dead");
-            // if (SpacePressed())
-            // {
-            //     foreach (var jumpFrame in playerController.Jump(map))
-            //     {
-            //         map = jumpFrame;
-            //         (x, y) = playerController.FindPlayer(map);
-            //         map = scroller.ScrollLeft(map);
-            //         mapEngine.PrintMap(map);
-            //         Thread.Sleep(FrameDelay);
-            //     }
-            //     continue;
-            // }
+            mapRenderer.PrintMap(map);
+            var (x, y) = playerController.FindPlayer(map);
+            if (map[y, x + 1].Type != TileType.Empty)
+                throw new Exception("You're dead");
+            if (SpacePressed())
+            {
+                foreach (var jumpFrame in playerController.Jump(map))
+                {
+                    map = scroller.ScrollLeft(map);
+                    map = jumpFrame;
+                    mapRenderer.PrintMap(map);
+                    Thread.Sleep(FrameDelay);
+                }
+                continue;
+            }
             map = scroller.ScrollLeft(map);
             Thread.Sleep(FrameDelay);
         }
-        mapEngine.PrintMap(map);
+        mapRenderer.PrintMap(map);
     }
     private bool SpacePressed()
     {

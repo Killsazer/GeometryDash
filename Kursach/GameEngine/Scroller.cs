@@ -10,13 +10,16 @@ class Scroller
         {
             for (int x = 1; x < map.GetLength(1) - 2; x++)
             {
-                // Пропускаємо клітинку гравця і наступну після нього
-                // if ((x == playerX - 1 && y == playerY) || (x == playerX && y == playerY))
-                //     continue;
-                if (map[y, x].Type == TileType.Player || map[y, x + 1].Type == TileType.Player)
+                if (map[y, x].Type == TileType.Player)
                     continue;
+                if (map[y, x + 1].Type == TileType.Player)
+                {
+                    map[y, x] = map[y, x + 2];
+                    continue;
+                }
                 map[y, x] = map[y, x + 1];
             }
+            map[y, map.GetLength(1) - 2] = new Tile(' ', TileType.Empty);
         }
         return map;
     }

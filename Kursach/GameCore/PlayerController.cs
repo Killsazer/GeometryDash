@@ -24,12 +24,12 @@ class PlayerController
         }
 
         // СПУСК: y + 1
-        while (true)
+        for (int i = 1; i <= height; i++)
         {
             int newY = y + 1;
             int newX = x + 1;
 
-            if (IsDeath(map, newX, newY))
+            if (map[newY, newX].Type == TileType.Spike)
                 throw new Exception("You're dead (.");
 
             map[newY, newX] = new Tile('□', TileType.Player);
@@ -41,6 +41,19 @@ class PlayerController
         }
     }
 
+    public (int X, int Y) FindPlayer(Tile[,] map)
+    {
+
+        for (int y = 1; y < map.GetLength(0) - 1; y++)
+        {
+            for (int x = 1; x < map.GetLength(1) - 1; x++)
+            {
+                if (map[y, x].Type == TileType.Player)
+                    return (x, y);
+            }
+        }
+        throw new Exception("Player not found on the map.");
+    }
 
     // public Tile[,] ApplyGravity(Tile[,] map)
     // {
@@ -56,28 +69,4 @@ class PlayerController
 
     //     return map;
     // }
-    public (int X, int Y) FindPlayer(Tile[,] map)
-    {
-
-        for (int y = 1; y < map.GetLength(0) - 1; y++)
-        {
-            for (int x = 1; x < map.GetLength(1) - 1; x++)
-            {
-                if (map[y, x].Type == TileType.Player)
-                    return (x, y);
-            }
-        }
-        throw new Exception("Player not found on the map.");
-    }
-
-    private bool IsDeath(Tile[,] map, int x, int y)
-    {
-        // Перевірка меж
-        if (y < 0 || y >= map.GetLength(0) || x < 0 || x >= map.GetLength(1))
-            return true;
-
-        // Смертельна клітинка
-        var type = map[y, x].Type;
-        return type != TileType.Empty && type != TileType.Map;
-    }
 }
