@@ -18,6 +18,8 @@ class Game
         Console.Clear();
 
         Tile[,] map = mapLoader.LoadFromFile();
+        map = scroller.Map(map);
+        bool deathCondition = false;
         while (gameStateChecker.HasNonEmptyTiles(map))
         {
             mapRenderer.PrintMap(map);
@@ -26,6 +28,7 @@ class Game
             {
                 DeathMenu deathMenu = new DeathMenu();
                 deathMenu.Print();
+                deathCondition = true;
                 break;
             }
             if (SpacePressed())
@@ -41,9 +44,12 @@ class Game
             map = scroller.ScrollLeft(map);
             Thread.Sleep(FrameDelay);
         }
-        mapRenderer.PrintMap(map);
-        WinMenu winMenu = new WinMenu();
-        winMenu.Print();
+        if (!deathCondition)
+        {
+            mapRenderer.PrintMap(map);
+            WinMenu winMenu = new WinMenu();
+            winMenu.Print();
+        }
     }
     private bool SpacePressed()
     {
