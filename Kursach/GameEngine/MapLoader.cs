@@ -4,12 +4,11 @@ namespace Kursach.GameEngine;
 
 class MapLoader
 {
-    private const string LevelFileName = "BetaLevel.txt";
     public Tile[,] LoadFromFile()
     {
-        string betaLevelDir = GetLevelPath(LevelFileName);
+        string levelDir = GetLevelPath();
 
-        string[] lines = File.ReadAllLines(betaLevelDir);
+        string[] lines = File.ReadAllLines(levelDir);
         int height = lines.Length;
         int width = lines[0].Length;
 
@@ -25,8 +24,43 @@ class MapLoader
         }
         return tiles;
     }
-    private string GetLevelPath(string fileName)
+    private string GetLevelPath()
     {
+        Console.Clear();
+        string text = "Choose the level:\n1. Beta level\n2. First level";
+        // int x = (Console.WindowWidth - text.Length) / 2;
+        // Console.SetCursorPosition(x, 0);
+        foreach (char let in text)
+        {
+            Console.Write(let);
+            Thread.Sleep(50);
+        }
+        string fileName = "";
+        bool cond = true;
+        while (cond)
+        {
+            ConsoleKeyInfo key = Console.ReadKey(true);
+            switch (key.Key)
+            {
+                case ConsoleKey.D1:
+                    fileName = "BetaLevel.txt";
+                    cond = false;
+                    break;
+                case ConsoleKey.D2:
+                    fileName = "FirstLevel.txt";
+                    cond = false;
+                    break;
+                default:
+                    Console.Clear();
+                    Console.Write("Invalid key pressed.\n\n" + text);
+                    // x = (Console.WindowWidth - text.Length) / 2;
+                    // Console.SetCursorPosition(x, 0);
+                    break;
+            }
+        }
+
+        Console.Clear();
+
         string currentDir = Directory.GetCurrentDirectory();
         currentDir = Path.GetFullPath(Path.Combine(currentDir, "..", "..", ".."));
         return Path.Combine(currentDir, "Field", "Levels", fileName);
