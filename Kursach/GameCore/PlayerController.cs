@@ -1,9 +1,11 @@
 using Kursach.Models;
+using Kursach.GameEngine;
 
 namespace Kursach.GameCore;
 
 class PlayerController
 {
+    private Scroller scroller = new Scroller();
     public IEnumerable<Tile[,]> Jump(Tile[,] map, int height = 2)
     {
         var (x, y) = FindPlayer(map);
@@ -11,6 +13,8 @@ class PlayerController
         // ПІДЙОМ: y - 1
         for (int i = 1; i <= height; i++)
         {
+            map = scroller.ScrollLeft(map);
+
             int newY = y - 1;
             int newX = x + 1;
 
@@ -26,11 +30,10 @@ class PlayerController
         // СПУСК: y + 1
         for (int i = 1; i <= height; i++)
         {
+            map = scroller.ScrollLeft(map);
+
             int newY = y + 1;
             int newX = x + 1;
-
-            if (map[newY, newX].Type == TileType.Spike)
-                throw new Exception("You're dead (.");
 
             map[newY, newX] = new Tile('□', TileType.Player);
             map[y, x] = new Tile(' ', TileType.Empty);

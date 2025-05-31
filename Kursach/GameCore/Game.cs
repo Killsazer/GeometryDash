@@ -20,13 +20,12 @@ class Game
         {
             mapRenderer.PrintMap(map);
             var (x, y) = playerController.FindPlayer(map);
-            if (map[y, x + 1].Type != TileType.Empty)
+            if (map[y, x + 1].Type != TileType.Empty || map[y, x - 1].Type != TileType.Empty)
                 throw new Exception("You're dead");
             if (SpacePressed())
             {
                 foreach (var jumpFrame in playerController.Jump(map))
                 {
-                    map = scroller.ScrollLeft(map);
                     map = jumpFrame;
                     mapRenderer.PrintMap(map);
                     Thread.Sleep(FrameDelay);
