@@ -42,6 +42,8 @@ class Game
             Thread.Sleep(FrameDelay);
         }
         mapRenderer.PrintMap(map);
+        WinMenu winMenu = new WinMenu();
+        winMenu.Print();
     }
     private bool SpacePressed()
     {

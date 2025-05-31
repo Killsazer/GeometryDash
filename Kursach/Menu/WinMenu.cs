@@ -1,11 +1,11 @@
 namespace Kursach.Menu;
 
-class DeathMenu : EndMenuInterface
+class WinMenu : EndMenuInterface
 {
     public void Print()
     {
         Console.WriteLine();
-        string text = "You loose :(";
+        string text = "You Win!";
         int xText = (Console.WindowWidth - text.Length) / 2;
         Console.WriteLine(new string(' ', xText) + text);
 
