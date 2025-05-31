@@ -1,5 +1,6 @@
 using Kursach.Models;
 using Kursach.GameEngine;
+using Kursach.Menu;
 
 namespace Kursach.GameCore;
 
@@ -15,13 +16,18 @@ class Game
     public void StartGame()
     {
         Console.Clear();
+
         Tile[,] map = mapLoader.LoadFromFile();
         while (gameStateChecker.HasNonEmptyTiles(map))
         {
             mapRenderer.PrintMap(map);
             var (x, y) = playerController.FindPlayer(map);
             if (map[y, x + 1].Type != TileType.Empty || map[y, x - 1].Type != TileType.Empty)
-                throw new Exception("You're dead");
+            {
+                DeathMenu deathMenu = new DeathMenu();
+                deathMenu.Print();
+                break;
+            }
             if (SpacePressed())
             {
                 foreach (var jumpFrame in playerController.Jump(map))
