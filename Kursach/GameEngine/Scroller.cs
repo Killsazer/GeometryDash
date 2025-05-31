@@ -4,26 +4,36 @@ namespace Kursach.GameEngine;
 
 class Scroller
 {
-    public Tile[,] Map(Tile[,] map)
+    public Tile[,] MapView(Tile[,] map)
     {
         Tile[,] mapAppereance = new Tile[7, 100];
 
-        // Add borders first
-        for (int y = 0; y < mapAppereance.GetLength(0); y++)
+        int windowHeight = 7;
+        int windowWidth = 100;
+
+        for (int y = 0; y < windowHeight; y++)
         {
-            for (int x = 0; x < mapAppereance.GetLength(1); x++)
+            for (int x = 0; x < windowWidth; x++)
             {
-                if (x == 0 || x == mapAppereance.GetLength(1) - 1)
+                if (x == 0 || x == windowWidth - 1)
                 {
                     mapAppereance[y, x] = new Tile('|', TileType.Map);
                 }
-                else if (y == 0 || y == mapAppereance.GetLength(0) - 1)
+                else if (y == 0 || y == windowHeight - 1)
                 {
                     mapAppereance[y, x] = new Tile('#', TileType.Map);
                 }
                 else
                 {
                     mapAppereance[y, x] = map[y - 1, x - 1];
+                    // if (x - 1 < map.GetLength(1) && y - 1 < map.GetLength(0))
+                    // {
+                    //     mapAppereance[y, x] = map[y - 1, x - 1];
+                    // }
+                    // else
+                    // {
+                    //     mapAppereance[y, x] = new Tile(' ', TileType.Empty);
+                    // }
                 }
             }
         }
@@ -31,23 +41,31 @@ class Scroller
         return mapAppereance;
     }
 
-    public Tile[,] ScrollLeft(Tile[,] map)
+    public Tile[,] ScrollLeft(Tile[,] mapView, Tile[,] fullMap, int width)
     {
-        for (int y = 1; y < map.GetLength(0) - 1; y++)
+        for (int y = 1; y < mapView.GetLength(0) - 1; y++)
         {
-            for (int x = 1; x < map.GetLength(1) - 2; x++)
+            for (int x = 1; x < mapView.GetLength(1) - 2; x++)
             {
-                if (map[y, x].Type == TileType.Player)
+                if (mapView[y, x].Type == TileType.Player)
                     continue;
-                if (map[y, x + 1].Type == TileType.Player)
+                if (mapView[y, x + 1].Type == TileType.Player)
                 {
-                    map[y, x] = map[y, x + 2];
+                    mapView[y, x] = mapView[y, x + 2];
                     continue;
                 }
-                map[y, x] = map[y, x + 1];
+                mapView[y, x] = mapView[y, x + 1];
             }
-            map[y, map.GetLength(1) - 2] = new Tile(' ', TileType.Empty);
+
+            if (fullMap.GetLength(1) > width)
+            {
+                mapView[y, mapView.GetLength(1) - 2] = fullMap[y - 1, width];
+            }
+            else
+            {
+                mapView[y, mapView.GetLength(1) - 2] = new Tile(' ', TileType.Empty);
+            }
         }
-        return map;
+        return mapView;
     }
 }

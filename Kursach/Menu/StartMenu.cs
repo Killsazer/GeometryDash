@@ -57,7 +57,7 @@ class StartMenu
             Console.Write(text);
             foreach (char letter in "...")
             {
-                Thread.Sleep(500);
+                Thread.Sleep(300);
                 Console.Write(letter);
             }
             Thread.Sleep(500);

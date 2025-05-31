@@ -11,9 +11,11 @@ class ConsolePrinter
         foreach (char letter in text)
         {
             if (isTitle && letter == 'G') // кольоровий напис "Geometry Dash!"
+            {
                 Console.ForegroundColor = ConsoleColor.Yellow;
+            }
             Console.Write(letter);
-            Thread.Sleep(50);
+            Thread.Sleep(30);
         }
         Console.ResetColor();
     }

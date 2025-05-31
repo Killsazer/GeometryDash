@@ -5,7 +5,6 @@ namespace Kursach.GameCore;
 
 class PlayerController
 {
-    private Scroller scroller = new Scroller();
     public Tile[,] JumpFrameUp(Tile[,] map)
     {
         var (x, y) = FindPlayer(map);
@@ -36,19 +35,4 @@ class PlayerController
         }
         throw new Exception("Player not found on the map.");
     }
-
-    // public Tile[,] ApplyGravity(Tile[,] map)
-    // {
-    //     var (x, y) = FindPlayer(map);
-    //     int newY = y + 1;
-    //     int newX = x + 1;
-
-    //     if (map[newY, newX].Type == TileType.Empty)
-    //     {
-    //         map[newY, newX] = new Tile('□', TileType.Player);
-    //         map[y, x] = new Tile(' ', TileType.Empty);
-    //     }
-
-    //     return map;
-    // }
 }

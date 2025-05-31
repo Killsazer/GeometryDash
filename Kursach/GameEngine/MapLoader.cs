@@ -28,13 +28,7 @@ class MapLoader
     {
         Console.Clear();
         string text = "Choose the level:\n1. Beta level\n2. First level";
-        // int x = (Console.WindowWidth - text.Length) / 2;
-        // Console.SetCursorPosition(x, 0);
-        foreach (char let in text)
-        {
-            Console.Write(let);
-            Thread.Sleep(50);
-        }
+        Console.WriteLine(text);
         string fileName = "";
         bool cond = true;
         while (cond)
@@ -53,8 +47,6 @@ class MapLoader
                 default:
                     Console.Clear();
                     Console.Write("Invalid key pressed.\n\n" + text);
-                    // x = (Console.WindowWidth - text.Length) / 2;
-                    // Console.SetCursorPosition(x, 0);
                     break;
             }
         }
@@ -70,8 +62,7 @@ class MapLoader
         return symbol switch
         {
             ' ' => TileType.Empty,
-            '■' => TileType.Block,
-            '^' => TileType.Spike,
+            '▲' => TileType.Spike,
             '□' => TileType.Player,
             _ => TileType.Map
         };
