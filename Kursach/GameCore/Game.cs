@@ -17,14 +17,14 @@ class Game
     {
         Console.Clear();
 
-        Tile[,] map = mapLoader.LoadFromFile();
-        map = scroller.Map(map);
+        Tile[,] mapView = mapLoader.LoadFromFile();
+        mapView = scroller.MapView(mapView);
         bool deathCondition = false;
-        while (gameStateChecker.HasNonEmptyTiles(map))
+        while (gameStateChecker.HasNonEmptyTiles(mapView))
         {
-            mapRenderer.PrintMap(map);
-            var (x, y) = playerController.FindPlayer(map);
-            if (map[y, x + 1].Type != TileType.Empty || map[y, x - 1].Type != TileType.Empty)
+            mapRenderer.PrintMap(mapView);
+            var (x, y) = playerController.FindPlayer(mapView);
+            if (mapView[y, x + 1].Type != TileType.Empty || mapView[y, x - 1].Type != TileType.Empty)
             {
                 DeathMenu deathMenu = new DeathMenu();
                 deathMenu.Print();
@@ -33,20 +33,38 @@ class Game
             }
             if (SpacePressed())
             {
-                foreach (var jumpFrame in playerController.Jump(map))
+                for (int i = 1; i <= 4; i++)
                 {
-                    map = jumpFrame;
-                    mapRenderer.PrintMap(map);
-                    Thread.Sleep(FrameDelay);
+                    if (i <= 2)
+                    {
+                        mapView = scroller.ScrollLeft(mapView);
+                        mapView = playerController.JumpFrameUp(mapView);
+                    }
+                    else
+                    {
+                        mapView = scroller.ScrollLeft(mapView);
+                        mapView = playerController.JumpFrameDown(mapView);
+                    }
+                    mapRenderer.PrintMap(mapView);
+                    if (i != 4)
+                    {
+                        Thread.Sleep(FrameDelay);
+                    }
                 }
+                // foreach (var jumpFrame in playerController.Jump(mapView))
+                // {
+                //     mapView = jumpFrame;
+                //     mapRenderer.PrintMap(mapView);
+                //     Thread.Sleep(FrameDelay);
+                // }
                 continue;
             }
-            map = scroller.ScrollLeft(map);
+            mapView = scroller.ScrollLeft(mapView);
             Thread.Sleep(FrameDelay);
         }
         if (!deathCondition)
         {
-            mapRenderer.PrintMap(map);
+            mapRenderer.PrintMap(mapView);
             WinMenu winMenu = new WinMenu();
             winMenu.Print();
         }

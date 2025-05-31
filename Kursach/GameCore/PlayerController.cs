@@ -6,42 +6,21 @@ namespace Kursach.GameCore;
 class PlayerController
 {
     private Scroller scroller = new Scroller();
-    public IEnumerable<Tile[,]> Jump(Tile[,] map, int height = 2)
+    public Tile[,] JumpFrameUp(Tile[,] map)
     {
         var (x, y) = FindPlayer(map);
 
-        // ПІДЙОМ: y - 1
-        for (int i = 1; i <= height; i++)
-        {
-            map = scroller.ScrollLeft(map);
+        map[y - 1, x + 1] = new Tile('□', TileType.Player);
+        map[y, x] = new Tile(' ', TileType.Empty);
+        return map;
+    }
+    public Tile[,] JumpFrameDown(Tile[,] map, int height = 2)
+    {
+        var (x, y) = FindPlayer(map);
 
-            int newY = y - 1;
-            int newX = x + 1;
-
-            // Рух гравця
-            map[newY, newX] = new Tile('□', TileType.Player);
-            map[y, x] = new Tile(' ', TileType.Empty);
-            y = newY;
-            x = newX;
-
-            yield return map;
-        }
-
-        // СПУСК: y + 1
-        for (int i = 1; i <= height; i++)
-        {
-            map = scroller.ScrollLeft(map);
-
-            int newY = y + 1;
-            int newX = x + 1;
-
-            map[newY, newX] = new Tile('□', TileType.Player);
-            map[y, x] = new Tile(' ', TileType.Empty);
-            y = newY;
-            x = newX;
-
-            yield return map;
-        }
+        map[y + 1, x + 1] = new Tile('□', TileType.Player);
+        map[y, x] = new Tile(' ', TileType.Empty);
+        return map;
     }
 
     public (int X, int Y) FindPlayer(Tile[,] map)
