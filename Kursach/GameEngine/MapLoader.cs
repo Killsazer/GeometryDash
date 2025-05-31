@@ -53,9 +53,8 @@ class MapLoader
 
         Console.Clear();
 
-        string currentDir = Directory.GetCurrentDirectory();
-        currentDir = Path.GetFullPath(Path.Combine(currentDir, "..", "..", ".."));
-        return Path.Combine(currentDir, "Field", "Levels", fileName);
+        string exeDir = AppContext.BaseDirectory; // для exe
+        return Path.Combine(exeDir, "Field", "Levels", fileName);
     }
     private TileType GetTileTypeFromSymbol(char symbol)
     {
