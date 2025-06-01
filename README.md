@@ -9,27 +9,29 @@ _Виконав Ковальчук Вадим КП-42_
 
 ## Структкура проекту
 
-Kursach/  
-├── GameCore/  
-│ ├── Game.cs  
-│ └── PlayerController.cs  
-├── GameEngine/  
-│ ├── MapLoader.cs  
-│ ├── MapRenderer.cs  
-│ └── WindowScroller.cs  
-├── Levels/  
-│ ├── BetaLevel.txt  
-│ └── FirstLevel.txt  
-├── Menu/  
-│ ├── EndMenu.cs  
-│ ├── LevelSelectionMenu.cs  
-│ └── StartMenu.cs  
-├── Models/  
-│ ├── Tile.cs  
-│ └── TileType.cs  
-├── Utils/  
-│ └── ConsoleHelper.cs  
+```
+Kursach/
+├── GameCore/
+│ ├── Game.cs
+│ └── PlayerController.cs
+├── GameEngine/
+│ ├── MapLoader.cs
+│ ├── MapRenderer.cs
+│ └── WindowScroller.cs
+├── Levels/
+│ ├── BetaLevel.txt
+│ └── FirstLevel.txt
+├── Menu/
+│ ├── EndMenu.cs
+│ ├── LevelSelectionMenu.cs
+│ └── StartMenu.cs
+├── Models/
+│ ├── Tile.cs
+│ └── TileType.cs
+├── Utils/
+│ └── ConsoleHelper.cs
 └── GameRunner.cs
+```
 
 ## **Головне** про проект
 
