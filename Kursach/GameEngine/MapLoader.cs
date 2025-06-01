@@ -6,23 +6,41 @@ class MapLoader
 {
     public Tile[,] LoadFromFile()
     {
-        string levelDir = GetLevelPath();
-
-        string[] lines = File.ReadAllLines(levelDir);
-        int height = lines.Length;
-        int width = lines[0].Length;
-
-        Tile[,] tiles = new Tile[height, width];
-        for (int y = 0; y < height; y++)
+        try
         {
-            for (int x = 0; x < width; x++)
+            string levelDir = GetLevelPath();
+
+            string[] lines = File.ReadAllLines(levelDir);
+            int height = lines.Length;
+            int width = lines[0].Length;
+
+            Tile[,] tiles = new Tile[height, width];
+            for (int y = 0; y < height; y++)
             {
-                char symbol = lines[y][x];
-                TileType type = GetTileTypeFromSymbol(symbol);
-                tiles[y, x] = new Tile(symbol, type);
+                for (int x = 0; x < width; x++)
+                {
+                    char symbol = lines[y][x];
+                    TileType type = GetTileTypeFromSymbol(symbol);
+                    tiles[y, x] = new Tile(symbol, type);
+                }
             }
+            return tiles;
         }
-        return tiles;
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("File not found. Press any key to exit.");
+            Console.ReadKey();
+            Environment.Exit(0);
+            return null; 
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading level: {ex.Message}");
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
+            Environment.Exit(1);
+            return null;
+        }
     }
     private string GetLevelPath()
     {
