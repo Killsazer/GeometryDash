@@ -8,6 +8,21 @@ class MapRenderer
     private readonly StringBuilder frame = new StringBuilder();
     public void PrintMap(Tile[,] map)
     {
+        int requiredWidth = map.GetLength(1);
+        int requiredHeight = map.GetLength(0);
+
+        if (Console.WindowWidth < requiredWidth || Console.WindowHeight < requiredHeight)
+        {
+            Console.Clear();
+            Console.WriteLine("The console window size is too small to display the map.");
+            Console.WriteLine($"Required: {requiredWidth}x{requiredHeight}");
+            Console.WriteLine("Increase the window size and try again.");
+            Console.ReadKey(true);
+            Environment.Exit(0);
+            return;
+        }
+
+
         frame.Clear();
 
         int xCoord = (Console.WindowWidth - map.GetLength(1)) / 2;
