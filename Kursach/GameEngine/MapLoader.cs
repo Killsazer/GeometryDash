@@ -1,7 +1,7 @@
-namespace Kursach.GameEngine;
-
 using Kursach.Models;
 using Kursach.Utils;
+
+namespace Kursach.GameEngine;
 
 class MapLoader
 {

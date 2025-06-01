@@ -51,16 +51,17 @@ class Game
     }
     private bool IsSpacePressed()
     {
-        bool res = false;
         if (Console.KeyAvailable)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.Spacebar)
             {
-                res = true;
+                // Очищуємо буфер, щоб "зажатий" пробіл не накопичувався
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                return true;
             }
         }
-        return res;
+        return false;
     }
     private (int width, Tile[,] mapView) JumpProcess(int width, Tile[,] mapView, Tile[,] fullMap)
     {

@@ -1,6 +1,6 @@
-namespace Kursach.Menu;
-
 using Kursach.Utils;
+
+namespace Kursach.Menu;
 
 class EndMenu
 {
