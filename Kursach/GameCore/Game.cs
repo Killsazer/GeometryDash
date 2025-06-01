@@ -68,12 +68,12 @@ class Game
             if (i <= 2)
             {
                 mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
-                mapView = playerController.JumpFrameUp(mapView);
+                mapView = playerController.MovePlayerUp(mapView);
             }
             else
             {
                 mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
-                mapView = playerController.JumpFrameDown(mapView);
+                mapView = playerController.MovePlayerDown(mapView);
             }
             mapRenderer.PrintMap(mapView);
             if (i != 4)

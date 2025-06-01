@@ -1,24 +1,17 @@
 using Kursach.Models;
-using Kursach.GameEngine;
 
 namespace Kursach.GameCore;
 
 class PlayerController
 {
-    public Tile[,] JumpFrameUp(Tile[,] map)
+    public Tile[,] MovePlayerUp(Tile[,] map)
     {
-        var (x, y) = FindPlayer(map);
-
-        map[y - 1, x + 1] = new Tile('□', TileType.Player);
-        map[y, x] = new Tile(' ', TileType.Empty);
+        MovePlayer(map, -1);
         return map;
     }
-    public Tile[,] JumpFrameDown(Tile[,] map, int height = 2)
+    public Tile[,] MovePlayerDown(Tile[,] map, int height = 2)
     {
-        var (x, y) = FindPlayer(map);
-
-        map[y + 1, x + 1] = new Tile('□', TileType.Player);
-        map[y, x] = new Tile(' ', TileType.Empty);
+        MovePlayer(map, +1);
         return map;
     }
 
@@ -34,5 +27,12 @@ class PlayerController
             }
         }
         throw new Exception("Player not found on the map.");
+    }
+    private Tile[,] MovePlayer(Tile[,] map, int deltaY)
+    {
+        var (x, y) = FindPlayer(map);
+        map[y + deltaY, x + 1] = new Tile('□', TileType.Player);
+        map[y, x] = new Tile(' ', TileType.Empty);
+        return map;
     }
 }

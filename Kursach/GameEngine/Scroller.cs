@@ -26,14 +26,6 @@ class Scroller
                 else
                 {
                     mapAppereance[y, x] = map[y - 1, x - 1];
-                    // if (x - 1 < map.GetLength(1) && y - 1 < map.GetLength(0))
-                    // {
-                    //     mapAppereance[y, x] = map[y - 1, x - 1];
-                    // }
-                    // else
-                    // {
-                    //     mapAppereance[y, x] = new Tile(' ', TileType.Empty);
-                    // }
                 }
             }
         }
@@ -41,8 +33,9 @@ class Scroller
         return mapAppereance;
     }
 
-    public Tile[,] ScrollLeft(Tile[,] mapView, Tile[,] fullMap, int width)
+    public Tile[,] ScrollLeft(Tile[,] mapView, Tile[,] fullMap, ref int width)
     {
+        width++;
         for (int y = 1; y < mapView.GetLength(0) - 1; y++)
         {
             for (int x = 1; x < mapView.GetLength(1) - 2; x++)
