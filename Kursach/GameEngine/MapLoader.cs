@@ -1,5 +1,5 @@
+using Kursach.Menu;
 using Kursach.Models;
-using Kursach.Utils;
 
 namespace Kursach.GameEngine;
 
@@ -45,36 +45,10 @@ class MapLoader
     }
     private string GetLevelPath()
     {
-        Console.Clear();
-        string text = "Choose the level:\n1. Beta level\n2. First level";
-        Console.WriteLine(text);
-        string fileName = "";
-        bool cond = true;
-        while (cond)
-        {
-            ConsoleHelper.ClearInputBuffer();
-            ConsoleKeyInfo key = Console.ReadKey(true);
-            switch (key.Key)
-            {
-                case ConsoleKey.D1:
-                    fileName = "BetaLevel.txt";
-                    cond = false;
-                    break;
-                case ConsoleKey.D2:
-                    fileName = "FirstLevel.txt";
-                    cond = false;
-                    break;
-                default:
-                    Console.Clear();
-                    Console.Write("Invalid key pressed.\n\n" + text);
-                    break;
-            }
-        }
-
-        Console.Clear();
+        string fileName = LevelSelectionMenu.SelectLevel();
 
         string exeDir = AppContext.BaseDirectory; // для exe
-        return Path.Combine(exeDir, "Field", "Levels", fileName);
+        return Path.Combine(exeDir, "Levels", fileName);
     }
     private TileType GetTileTypeFromSymbol(char symbol)
     {

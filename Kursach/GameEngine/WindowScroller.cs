@@ -2,7 +2,7 @@ using Kursach.Models;
 
 namespace Kursach.GameEngine;
 
-class Scroller
+class WindowScroller
 {
     public Tile[,] MapView(Tile[,] map)
     {

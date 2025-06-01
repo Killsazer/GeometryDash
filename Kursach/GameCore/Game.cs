@@ -8,10 +8,10 @@ class Game
 {
     private readonly MapRenderer mapRenderer = new MapRenderer();
     private readonly MapLoader mapLoader = new MapLoader();
-    private readonly Scroller scroller = new Scroller();
-    private readonly GameCondition gameStateChecker = new GameCondition();
+    private readonly WindowScroller scroller = new WindowScroller();
     private readonly PlayerController playerController = new PlayerController();
-    private const int FrameDelay = 150;
+    private const int _FrameDelay = 150;
+    private const int _PlayerOffset = 3;
 
     public bool StartGame()
     {
@@ -27,7 +27,7 @@ class Game
         bool deathCondition = false;
         bool repCondition = false;
 
-        while (gameStateChecker.HasObstaclesAhead(mapView, x))
+        while (HasObstaclesAhead(mapView, x))
         {
             mapRenderer.PrintMap(mapView);
             (x, y) = playerController.FindPlayer(mapView);
@@ -38,7 +38,7 @@ class Game
             }
             if (IsSpacePressed())
             {
-                (width, mapView) = JumpProcess(width, mapView, fullMap);
+                (width, mapView) = Jump(width, mapView, fullMap);
                 while (Console.KeyAvailable)
                 {
                     Console.ReadKey(true);
@@ -46,7 +46,7 @@ class Game
                 continue;
             }
             mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
-            Thread.Sleep(FrameDelay);
+            Thread.Sleep(_FrameDelay);
         }
         if (!deathCondition)
         {
@@ -71,7 +71,7 @@ class Game
         }
         return false;
     }
-    private (int width, Tile[,] mapView) JumpProcess(int width, Tile[,] mapView, Tile[,] fullMap)
+    private (int width, Tile[,] mapView) Jump(int width, Tile[,] mapView, Tile[,] fullMap)
     {
         for (int i = 1; i <= 4; i++)
         {
@@ -88,7 +88,7 @@ class Game
             mapRenderer.PrintMap(mapView);
             if (i != 4)
             {
-                Thread.Sleep(FrameDelay);
+                Thread.Sleep(_FrameDelay);
             }
         }
         return (width, mapView);
@@ -105,5 +105,23 @@ class Game
         string text = "You lose:(";
         EndMenu endMenu = new EndMenu();
         return (endMenu.Print(text), true);
+    }
+    private bool HasObstaclesAhead(Tile[,] map, int xPlayer)
+    {
+        if (xPlayer - _PlayerOffset > 0)
+        {
+            xPlayer -= _PlayerOffset; //задля того щоб пройшло трохи часу пере виграшем
+        }
+        for (int y = 1; y < map.GetLength(0) - 1; y++)
+        {
+            for (int x = xPlayer; x < map.GetLength(1) - 1; x++)
+            {
+                if (map[y, x].Type != TileType.Empty && map[y, x].Type != TileType.Player)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

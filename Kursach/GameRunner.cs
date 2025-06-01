@@ -21,5 +21,6 @@ class Runner
         Console.Clear();
         Console.WriteLine("\n Thanks for playing! Press any key to exit...");
         Console.ReadKey(true);
+        Console.CursorVisible = true;
     }
 }
