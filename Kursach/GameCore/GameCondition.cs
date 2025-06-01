@@ -4,13 +4,12 @@ namespace Kursach.GameCore;
 
 class GameCondition
 {
-    private readonly PlayerController playerController = new PlayerController();
-    public bool HasNonEmptyTiles(Tile[,] map)
+    private const int PlayerOffset = 3;
+    public bool HasObstaclesAhead(Tile[,] map, int xPlayer)
     {
-        int xPlayer = playerController.FindPlayer(map).X;
-        if (xPlayer - 3 > 0)
+        if (xPlayer - PlayerOffset > 0)
         {
-            xPlayer -= 3; //задля того щоб пройшло трохи часу пере виграшем
+            xPlayer -= PlayerOffset; //задля того щоб пройшло трохи часу пере виграшем
         }
         for (int y = 1; y < map.GetLength(0) - 1; y++)
         {

@@ -22,13 +22,14 @@ class Game
 
         int width = mapView.GetLength(1);
         mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
+        var (x, y) = playerController.FindPlayer(mapView);
 
         bool deathCondition = false;
         bool repCondition = false;
-        while (gameStateChecker.HasNonEmptyTiles(mapView))
+        while (gameStateChecker.HasObstaclesAhead(mapView, x))
         {
             mapRenderer.PrintMap(mapView);
-            var (x, y) = playerController.FindPlayer(mapView);
+            (x, y) = playerController.FindPlayer(mapView);
             if (mapView[y, x + 1].Type == TileType.Spike || mapView[y, x - 1].Type == TileType.Spike)
             {
                 (repCondition, deathCondition) = HandleLose();
