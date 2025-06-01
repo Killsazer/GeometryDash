@@ -26,6 +26,7 @@ class Game
 
         bool deathCondition = false;
         bool repCondition = false;
+
         while (gameStateChecker.HasObstaclesAhead(mapView, x))
         {
             mapRenderer.PrintMap(mapView);
@@ -38,6 +39,10 @@ class Game
             if (IsSpacePressed())
             {
                 (width, mapView) = JumpProcess(width, mapView, fullMap);
+                while (Console.KeyAvailable)
+                {
+                    Console.ReadKey(true);
+                }
                 continue;
             }
             mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
@@ -57,7 +62,10 @@ class Game
             if (key.Key == ConsoleKey.Spacebar)
             {
                 // Очищуємо буфер, щоб "зажатий" пробіл не накопичувався
-                while (Console.KeyAvailable) Console.ReadKey(true);
+                while (Console.KeyAvailable)
+                {
+                    Console.ReadKey(true);
+                }
                 return true;
             }
         }
