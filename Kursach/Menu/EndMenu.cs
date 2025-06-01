@@ -1,5 +1,7 @@
 namespace Kursach.Menu;
 
+using Kursach.Utils;
+
 class EndMenu
 {
     public bool Print(string text)
@@ -15,6 +17,7 @@ class EndMenu
         text = "Or press any other key to exit...";
         xText = (Console.WindowWidth - text.Length) / 2;
         Console.WriteLine(new string(' ', xText) + text);
+        ConsoleHelper.ClearInputBuffer();
         ConsoleKeyInfo key = Console.ReadKey(true);
         switch (key.Key)
         {

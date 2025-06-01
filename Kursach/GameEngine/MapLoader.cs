@@ -1,6 +1,7 @@
-using Kursach.Models;
-
 namespace Kursach.GameEngine;
+
+using Kursach.Models;
+using Kursach.Utils;
 
 class MapLoader
 {
@@ -31,7 +32,7 @@ class MapLoader
             Console.WriteLine("File not found. Press any key to exit.");
             Console.ReadKey();
             Environment.Exit(0);
-            return null; 
+            return null;
         }
         catch (Exception ex)
         {
@@ -51,6 +52,7 @@ class MapLoader
         bool cond = true;
         while (cond)
         {
+            ConsoleHelper.ClearInputBuffer();
             ConsoleKeyInfo key = Console.ReadKey(true);
             switch (key.Key)
             {

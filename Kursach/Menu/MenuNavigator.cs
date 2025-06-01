@@ -1,5 +1,7 @@
 namespace Kursach.Menu;
 
+using Kursach.Utils;
+
 class MenuNavigator
 {
     private readonly Action startGame;
@@ -12,6 +14,7 @@ class MenuNavigator
     {
         while (true)
         {
+            ConsoleHelper.ClearInputBuffer();
             ConsoleKeyInfo key = Console.ReadKey(true);
             switch (key.Key)
             {
