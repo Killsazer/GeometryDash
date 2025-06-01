@@ -10,7 +10,7 @@ class Runner
     {
         Console.OutputEncoding = Encoding.UTF8;
         var menu = new StartMenu();
-        bool continueCondition = menu.MenuGeneretor();
+        bool continueCondition = menu.MenuGenerator();
 
         while (continueCondition == true)
         {

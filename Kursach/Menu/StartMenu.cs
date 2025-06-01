@@ -8,7 +8,7 @@ class StartMenu
     {
         menuNavigator = new MenuNavigator(StartGame);
     }
-    public bool MenuGeneretor()
+    public bool MenuGenerator()
     {
         Console.Clear();
 
