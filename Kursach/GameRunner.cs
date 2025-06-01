@@ -1,4 +1,4 @@
-﻿namespace GeometryDash;
+﻿namespace Kursach;
 
 using Kursach.Menu;
 using Kursach.GameCore;

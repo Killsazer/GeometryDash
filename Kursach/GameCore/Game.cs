@@ -17,12 +17,12 @@ class Game
     {
         Console.Clear();
 
-        // fullMap = scroller.ScrollLeft(fullMap);
         Tile[,] fullMap = mapLoader.LoadFromFile();
         Tile[,] mapView = scroller.MapView(fullMap);
+
         int width = mapView.GetLength(1);
-        width++;
-        mapView = scroller.ScrollLeft(mapView, fullMap, width);
+        mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
+
         bool deathCondition = false;
         bool repCondition = false;
         while (gameStateChecker.HasNonEmptyTiles(mapView))
@@ -31,59 +31,24 @@ class Game
             var (x, y) = playerController.FindPlayer(mapView);
             if (mapView[y, x + 1].Type == TileType.Spike || mapView[y, x - 1].Type == TileType.Spike)
             {
-                string text = "You lose:(";
-                EndMenu endMenu = new EndMenu();
-                repCondition = endMenu.Print(text);
-                deathCondition = true;
+                (repCondition, deathCondition) = HandleLose();
                 break;
             }
-            if (SpacePressed())
+            if (IsSpacePressed())
             {
-                for (int i = 1; i <= 4; i++)
-                {
-                    if (i <= 2)
-                    {
-                        width++;
-                        mapView = scroller.ScrollLeft(mapView, fullMap, width);
-                        mapView = playerController.JumpFrameUp(mapView);
-                        // (x, y) = playerController.FindPlayer(mapView);
-                        // mapRenderer.PrintMap(mapView);
-                        // if (mapView[y, x + 1].Type != TileType.Empty)
-                        // {
-                        //     DeathMenu deathMenu = new DeathMenu();
-                        //     deathMenu.Print();
-                        //     deathCondition = true;
-                        //     break;
-                        // }
-                    }
-                    else
-                    {
-                        width++;
-                        mapView = scroller.ScrollLeft(mapView, fullMap, width);
-                        mapView = playerController.JumpFrameDown(mapView);
-                    }
-                    mapRenderer.PrintMap(mapView);
-                    if (i != 4)
-                    {
-                        Thread.Sleep(FrameDelay);
-                    }
-                }
+                (width, mapView) = JumpProcess(width, mapView, fullMap);
                 continue;
             }
-            width++;
-            mapView = scroller.ScrollLeft(mapView, fullMap, width);
+            mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
             Thread.Sleep(FrameDelay);
         }
         if (!deathCondition)
         {
-            mapRenderer.PrintMap(mapView);
-            string text = "You win! Congratulations!";
-            EndMenu endMenu = new EndMenu();
-            repCondition = endMenu.Print(text);
+            repCondition = HandleWin(mapView);
         }
         return repCondition;
     }
-    private bool SpacePressed()
+    private bool IsSpacePressed()
     {
         bool res = false;
         if (Console.KeyAvailable)
@@ -95,5 +60,40 @@ class Game
             }
         }
         return res;
+    }
+    private (int width, Tile[,] mapView) JumpProcess(int width, Tile[,] mapView, Tile[,] fullMap)
+    {
+        for (int i = 1; i <= 4; i++)
+        {
+            if (i <= 2)
+            {
+                mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
+                mapView = playerController.JumpFrameUp(mapView);
+            }
+            else
+            {
+                mapView = scroller.ScrollLeft(mapView, fullMap, ref width);
+                mapView = playerController.JumpFrameDown(mapView);
+            }
+            mapRenderer.PrintMap(mapView);
+            if (i != 4)
+            {
+                Thread.Sleep(FrameDelay);
+            }
+        }
+        return (width, mapView);
+    }
+    private bool HandleWin(Tile[,] map)
+    {
+        mapRenderer.PrintMap(map);
+        string text = "You win! Congratulations!";
+        EndMenu endMenu = new EndMenu();
+        return endMenu.Print(text);
+    }
+    private (bool repCondition, bool deathCondition) HandleLose()
+    {
+        string text = "You lose:(";
+        EndMenu endMenu = new EndMenu();
+        return (endMenu.Print(text), true);
     }
 }
