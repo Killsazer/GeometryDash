@@ -1,6 +1,7 @@
 # Курсова робота - консольний застосунок **"GeometryDash"**
 
 _Виконав Ковальчук Вадим КП-42_
+_The game was created using [GitHub](https://github.com/Killsazer/GeometryDash)._
 
 ## Про застосунок
 
